@@ -1,0 +1,1 @@
+curl -X POST 192.168.2.116:45678/api/controller/$1/$2

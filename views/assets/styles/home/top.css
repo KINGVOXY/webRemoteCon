@@ -1,0 +1,18 @@
+.ctrbox {
+    border: 1px solid #F8F9FA;
+    border-radius: 5px;
+    display: flex;
+    max-width: 450px;
+}
+.ctrbox > .inbox {
+    text-align: center;
+}
+.inbox > .btn-toolbar {
+    display: inline-block;
+}
+
+@media (max-width: 374px) {
+    .ctrbox {
+        display: block;
+    }
+}
