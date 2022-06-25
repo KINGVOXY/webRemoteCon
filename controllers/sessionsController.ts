@@ -41,7 +41,8 @@ export async function post_new(req: SystemRequest, res: SystemResponse): Promise
             value: cookie, 
             secure: false, 
             path: "/", 
-            sameSite: "Lax"
+            sameSite: "Lax",
+            maxAge: 30*24*60*60
         });
         res.redirect("/top");
     } else {
