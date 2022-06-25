@@ -1,8 +1,8 @@
 {
     "name": "Daruo System",
     "short_name": "DaruSys",
-    "theme_color": "#24292e",
-    "background_color": "#d17635",
+    "theme_color": "#d17635",
+    "background_color": "#ef7b2d",
     "display": "standalone",
     "start_url": "/",
     "icons": [
