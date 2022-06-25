@@ -25,7 +25,7 @@ export async function post_new(req: SystemRequest, res: SystemResponse): Promise
     try {
         query = qs.parse(body);
     } catch (error) {
-        res.redirect("/?message=形式エラー&status=1");
+        res.redirect(`/?message=${encodeURI("形式エラー")}&status=1`);
         res.send(res.response);
     }
     console.log(query);
@@ -44,9 +44,7 @@ export async function post_new(req: SystemRequest, res: SystemResponse): Promise
             sameSite: "Lax"
         });
         res.redirect("/top");
-        res.send(res.response);
     } else {
-        res.status = 500;
-        res.send(res.response);
+        res.redirect(`/?message=${encodeURI("メールアドレス・パスワードが違います")}&status=1`);
     }
 }
