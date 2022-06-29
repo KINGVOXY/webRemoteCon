@@ -39,5 +39,10 @@ export const routes =
         URL: ["/api/controller/aircon/off"],
         POST: remote.aircon_off
     },
+    {
+        PATH: "aircon/timer.api",
+        URL: ["/api/controller/timer/test"],
+        POST: remote.test_timer
+    },
 
 ];

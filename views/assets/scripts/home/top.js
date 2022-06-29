@@ -10,3 +10,7 @@ $("#c-on").click(async function lightOn(e) {
 $("#a-off").click(async function lightOn(e) {
     await postData('/api/controller/aircon/off')
 });
+
+$("#timer").click(async function (e) {
+    await postData('/api/controller/timer/test')
+});

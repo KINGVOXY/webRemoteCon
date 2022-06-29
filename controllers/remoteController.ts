@@ -54,6 +54,19 @@ export async function aircon_off(req: SystemRequest, res: SystemResponse): Promi
     }
 }
 
+export async function test_timer(req: SystemRequest, res: SystemResponse): Promise<void> {
+    if(helpers.sessions.isLoggedIn(req, res)) {
+        const now = new Date();
+        const ftr = now.setSeconds(now.getSeconds() + 1);
+        const result = helpers.timer.setOnlyTimer(new Date(ftr), "light:on", true);
+        console.log(result);
+        
+
+        res.status = 200;
+        res.send(res.response);
+    }
+}
+
 async function remoCon(furniture: string, status: string): Promise<string> {
     const res = Deno.run({
         cmd: ["./remote/remoCon.sh", furniture, status],
