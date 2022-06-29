@@ -22,22 +22,22 @@ export const routes =
     {
         PATH: "light/on.api",
         URL: ["/api/controller/light/on"],
-        POST: remote.light_on
+        POST: remote.post_lightOn
     },
     {
         PATH: "light/off.api",
         URL: ["/api/controller/light/off"],
-        POST: remote.light_off
+        POST: remote.post_lightOff
     },
     {
         PATH: "cooler/on.api",
         URL: ["/api/controller/cooler/on"],
-        POST: remote.cooler_on
+        POST: remote.post_coolerOn
     },
     {
         PATH: "aircon/off.api",
         URL: ["/api/controller/aircon/off"],
-        POST: remote.aircon_off
+        POST: remote.post_airconOff
     },
     {
         PATH: "aircon/timer.api",

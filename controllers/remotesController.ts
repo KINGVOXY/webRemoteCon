@@ -6,7 +6,7 @@ import {
     helpers
 } from "../api/mods.ts";
 
-export async function light_on(req: SystemRequest, res: SystemResponse): Promise<void> {
+export async function post_lightOn(req: SystemRequest, res: SystemResponse): Promise<void> {
     if(helpers.sessions.isLoggedIn(req, res)) {
         const result = await remoCon("light", "on");
         if (result.indexOf("done") == -1) {
@@ -18,7 +18,7 @@ export async function light_on(req: SystemRequest, res: SystemResponse): Promise
     }
 }
 
-export async function light_off(req: SystemRequest, res: SystemResponse): Promise<void> {
+export async function post_lightOff(req: SystemRequest, res: SystemResponse): Promise<void> {
     if(helpers.sessions.isLoggedIn(req, res)) {
         const result = await remoCon("light", "off");
         if (result.indexOf("done") == -1) {
@@ -30,7 +30,7 @@ export async function light_off(req: SystemRequest, res: SystemResponse): Promis
     }
 }
 
-export async function cooler_on(req: SystemRequest, res: SystemResponse): Promise<void> {
+export async function post_coolerOn(req: SystemRequest, res: SystemResponse): Promise<void> {
     if(helpers.sessions.isLoggedIn(req, res)) {
         const result = await remoCon("cooler", "on");
         if (result.indexOf("done") == -1) {
@@ -42,7 +42,7 @@ export async function cooler_on(req: SystemRequest, res: SystemResponse): Promis
     }
 }
 
-export async function aircon_off(req: SystemRequest, res: SystemResponse): Promise<void> {
+export async function post_airconOff(req: SystemRequest, res: SystemResponse): Promise<void> {
     if(helpers.sessions.isLoggedIn(req, res)) {
         const result = await remoCon("aircon", "off");
         if (result.indexOf("done") == -1) {
@@ -61,6 +61,17 @@ export async function test_timer(req: SystemRequest, res: SystemResponse): Promi
         const result = helpers.timer.setOnlyTimer(new Date(ftr), "light:on", true);
         console.log(result);
         
+
+        res.status = 200;
+        res.send(res.response);
+    }
+}
+
+export async function post_setTimer(req: SystemRequest, res: SystemResponse): Promise<void> {
+    if(helpers.sessions.isLoggedIn(req, res)) {
+        const body = await req.readBody();
+
+        // write here.
 
         res.status = 200;
         res.send(res.response);
