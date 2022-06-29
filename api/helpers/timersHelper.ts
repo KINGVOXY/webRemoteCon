@@ -1,5 +1,5 @@
-import { TIMER } from "../../models/timer.ts";
 import * as dt from "https://deno.land/std@0.95.0/datetime/mod.ts";
+import * as handler from "../handlers/mods.ts";
 
 const enum MODE {
     ONLY = 1,
@@ -17,16 +17,16 @@ export function setWeeklyTimer(bookTime:Date, command:string, isValid:boolean) {
 function setTimer(ftr:Date, command:string, mode:MODE, isValid:boolean = true) {
     const numOfMode: number = Number(mode);
     const dateForSet: string = dt.format(ftr,"yyyy-MM-dd HH:mm:ss")
-    const result = TIMER.INSERT({date: dateForSet, isValid: isValid, mode: numOfMode, command: command});
+    const result = handler.timers.insert({date: dateForSet, isValid: isValid, mode: numOfMode, command: command});
     return result;
 }
 
 export function switchTimer(id:number, isValid:boolean = true) {
-    const result = TIMER.SELECT({id: id}).UPDATE({isValid: isValid});
+    const result = handler.timers.update(id, isValid);
     return result;
 }
 
 export function deleteTimer(id:number) {
-    const result = TIMER.SELECT({id: id}).REMOVE();
+    const result = handler.timers.remove(id);
     return result;
 }
