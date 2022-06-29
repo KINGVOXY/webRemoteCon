@@ -7,7 +7,7 @@ setInterval(async () => {
     
     for (const b of books) {
         if (!b.id || !b.date || !b.isValid || !b.mode || !b.command) continue;
-        const bd = dt.parse(b.date.toString(), "yyyy-MM-dd HH:mm:ss");
+        const bd = dt.parse(b.date.toString(), "yyyy-MM-dd HH:mm");
         const com = b.command.toString().split(":");
 
         switch (b.mode) {
