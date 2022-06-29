@@ -40,9 +40,9 @@ export const routes =
         POST: remote.post_airconOff
     },
     {
-        PATH: "aircon/timer.api",
-        URL: ["/api/controller/timer/test"],
-        POST: remote.test_timer
+        PATH: "timer/set.api",
+        URL: ["/api/controller/timer/set"],
+        POST: remote.post_setTimer
     },
 
 ];

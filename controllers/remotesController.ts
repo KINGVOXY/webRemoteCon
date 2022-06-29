@@ -54,19 +54,6 @@ export async function post_airconOff(req: SystemRequest, res: SystemResponse): P
     }
 }
 
-export async function test_timer(req: SystemRequest, res: SystemResponse): Promise<void> {
-    if(helpers.sessions.isLoggedIn(req, res)) {
-        const now = new Date();
-        const ftr = now.setSeconds(now.getSeconds() + 1);
-        const result = helpers.timer.setOnlyTimer(new Date(ftr), "light:on", true);
-        console.log(result);
-        
-
-        res.status = 200;
-        res.send(res.response);
-    }
-}
-
 export async function post_setTimer(req: SystemRequest, res: SystemResponse): Promise<void> {
     if(helpers.sessions.isLoggedIn(req, res)) {
         const body = await req.readBody();
