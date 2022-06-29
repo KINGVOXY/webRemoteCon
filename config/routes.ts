@@ -44,5 +44,15 @@ export const routes =
         URL: ["/api/controller/timer/set"],
         POST: remote.post_setTimer
     },
+    {
+        PATH: "timer/update.api",
+        URL: ["/api/controller/timer/update"],
+        POST: remote.post_updateTimer
+    },
+    {
+        PATH: "timer/delete.api",
+        URL: ["/api/controller/timer/delete"],
+        POST: remote.post_deleteTimer
+    },
 
 ];

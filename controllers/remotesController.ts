@@ -57,8 +57,49 @@ export async function post_airconOff(req: SystemRequest, res: SystemResponse): P
 export async function post_setTimer(req: SystemRequest, res: SystemResponse): Promise<void> {
     if(helpers.sessions.isLoggedIn(req, res)) {
         const body = await req.readBody();
+        const query = JSON.parse(body);
 
-        // write here.
+        if (!query.date || !query.command || !query.mode || !query.isValid) {
+            res.status = 500;
+            res.send(res.response);
+        }
+
+        const shapeQuery = await helpers.timer.shapeQuery(query.date, query.command, query.mode, query.isValid);
+        const result = helpers.timer.set(shapeQuery);
+
+        res.status = 200;
+        res.send(res.response);
+    }
+}
+
+export async function post_updateTimer(req: SystemRequest, res: SystemResponse): Promise<void> {
+    if(helpers.sessions.isLoggedIn(req, res)) {
+        const body = await req.readBody();
+        const query = JSON.parse(body);
+
+        if (!query.id || !query.isValid) {
+            res.status = 500;
+            res.send(res.response);
+        }
+
+        helpers.timer.switchTimer(query.id, query.isValid);
+
+        res.status = 200;
+        res.send(res.response);
+    }
+}
+
+export async function post_deleteTimer(req: SystemRequest, res: SystemResponse): Promise<void> {
+    if(helpers.sessions.isLoggedIn(req, res)) {
+        const body = await req.readBody();
+        const query = JSON.parse(body);
+
+        if (!query.id) {
+            res.status = 500;
+            res.send(res.response);    
+        }
+
+        helpers.timer.deleteTimer(query.id);
 
         res.status = 200;
         res.send(res.response);
