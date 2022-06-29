@@ -1,6 +1,6 @@
 import * as home from "../controllers/homeController.ts";
 import * as sessions from "../controllers/sessionsController.ts";
-import * as remote from "../controllers/remoteController.ts";
+import * as remote from "../controllers/remotesController.ts";
 
 export const routes = 
 [
