@@ -3,12 +3,28 @@ import {
     SystemResponse,
 } from "../deps.ts";
 import {
-    helpers
+    helpers,
+    qs
 } from "../api/mods.ts";
+
+export async function get_create(req: SystemRequest, res: SystemResponse): Promise<void> {
+    if(helpers.sessions.isLoggedIn(req, res)) {
+        await res.setFile("./views/home/create.html");
+    }
+}
+
+export async function get_automations(req: SystemRequest, res: SystemResponse): Promise<void> {
+    if(helpers.sessions.isLoggedIn(req, res)) {
+        const atms = helpers.timer.get();
+        res.body = JSON.stringify(atms);
+        
+        await res.send(res.response);
+    }
+}
 
 export async function post_lightOn(req: SystemRequest, res: SystemResponse): Promise<void> {
     if(helpers.sessions.isLoggedIn(req, res)) {
-        const result = await remoCon("light", "on");
+        const result = await helpers.utils.remoCon("light", "on");
         if (result.indexOf("done") == -1) {
             res.status = 500;
             res.send(res.response);
@@ -20,7 +36,7 @@ export async function post_lightOn(req: SystemRequest, res: SystemResponse): Pro
 
 export async function post_lightOff(req: SystemRequest, res: SystemResponse): Promise<void> {
     if(helpers.sessions.isLoggedIn(req, res)) {
-        const result = await remoCon("light", "off");
+        const result = await helpers.utils.remoCon("light", "off");
         if (result.indexOf("done") == -1) {
             res.status = 500;
             res.send(res.response);
@@ -32,7 +48,7 @@ export async function post_lightOff(req: SystemRequest, res: SystemResponse): Pr
 
 export async function post_coolerOn(req: SystemRequest, res: SystemResponse): Promise<void> {
     if(helpers.sessions.isLoggedIn(req, res)) {
-        const result = await remoCon("cooler", "on");
+        const result = await helpers.utils.remoCon("cooler", "on");
         if (result.indexOf("done") == -1) {
             res.status = 500;
             res.send(res.response);
@@ -44,7 +60,7 @@ export async function post_coolerOn(req: SystemRequest, res: SystemResponse): Pr
 
 export async function post_airconOff(req: SystemRequest, res: SystemResponse): Promise<void> {
     if(helpers.sessions.isLoggedIn(req, res)) {
-        const result = await remoCon("aircon", "off");
+        const result = await helpers.utils.remoCon("aircon", "off");
         if (result.indexOf("done") == -1) {
             res.status = 500;
             res.send(res.response);
@@ -57,18 +73,29 @@ export async function post_airconOff(req: SystemRequest, res: SystemResponse): P
 export async function post_setTimer(req: SystemRequest, res: SystemResponse): Promise<void> {
     if(helpers.sessions.isLoggedIn(req, res)) {
         const body = await req.readBody();
-        const query = JSON.parse(body);
+        // console.log(body);
+         console.log(qs.parse(body));
+        
+        const query = qs.parse(body);
 
-        if (!query.date || !query.command || !query.mode || !query.isValid) {
+        if (!query.date || !query.command || !query.mode) {
             res.status = 500;
             res.send(res.response);
+            return;
         }
+        let isValid;
+        if (!query.isValid) isValid = "0";
+        else isValid = "1";
+        let week;
+        if (!query.week) week = ["0"];
+        else week = query.week;
 
-        const shapeQuery = await helpers.timer.shapeQuery(query.date, query.command, query.mode, query.isValid);
+        const shapeQuery = await helpers.timer.shapeQuery(query.date.toString(), query.command.toString(), query.mode.toString(), isValid, week);
+        console.log(shapeQuery);
         const result = helpers.timer.set(shapeQuery);
 
         res.status = 200;
-        res.send(res.response);
+        res.redirect("/top")
     }
 }
 
@@ -104,14 +131,4 @@ export async function post_deleteTimer(req: SystemRequest, res: SystemResponse):
         res.status = 200;
         res.send(res.response);
     }
-}
-
-async function remoCon(furniture: string, status: string): Promise<string> {
-    const res = Deno.run({
-        cmd: ["./remote/remoCon.sh", furniture, status],
-        stdout: "piped"
-    })
-    const o = await res.output();
-    const text = new TextDecoder().decode(o);
-    return text
 }

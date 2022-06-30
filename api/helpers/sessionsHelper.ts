@@ -4,6 +4,7 @@ import {
 } from "../../deps.ts";
 import { USERS } from "../../models/users.ts";
 import { bcrypt } from "../mods.ts";
+import { utils } from "./mods.ts";
 
 /**
  * メールアドレスとパスワードがあっているか
@@ -35,7 +36,7 @@ export async function isSuccess(query: any): Promise<number> {
 export function setCookie(userId: number): string {
     const user = (USERS.SELECT({ id: userId.toString() }).RESULT())[0];
     if (!user.cookie) return "-1";
-    const cookie = (user.cookie.toString().length == 21)?user.cookie.toString(): genHash(21);
+    const cookie = (user.cookie.toString().length == 21)?user.cookie.toString(): utils.genHash(21);
     
     USERS.SELECT({ id: userId.toString() }).UPDATE({ cookie: cookie });
 
@@ -87,20 +88,4 @@ function checkSession(c: string|undefined): boolean {
     const user_data = USERS.SELECT({ cookie: c });
     if (!user_data.list.length) return false;
     return true;
-}
-
-/**
- * Cookie用のハッシュ作成
- * @param length 
- * @returns 
- */
-function genHash(length: number = 21):string {
-    let cookie = "";
-    const base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-    const base_len = base.length;
-    
-    for(let i = 0;i < length;i++)
-        cookie += base[Math.floor(Math.random() * base_len)].toString()
-    
-    return cookie;
 }

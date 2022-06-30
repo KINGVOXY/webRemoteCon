@@ -1,3 +1,12 @@
+main {
+    width: 60% !important;
+    max-width: 720px !important;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
 .ctrbox {
     border: 1px solid #F8F9FA;
     border-radius: 5px;
@@ -9,6 +18,45 @@
 }
 .inbox > .btn-toolbar {
     display: inline-block;
+}
+
+.atm-btn {
+    margin: .6vw;
+    display: block;
+    width: 6vw !important;
+    min-width: 80px !important;
+    height: 6vw !important;
+    min-height: 80px !important;
+    padding: .5rem;
+    font-size: small;
+    text-align: center;
+}
+
+.atm-btn > p {
+    margin: 0;
+}
+
+.atm-btn > .time {
+    font-size: medium;
+    font-weight: bold;
+}
+
+@media (max-width: 576px) {
+    main{
+        width: 90% !important;
+        max-width: 540px !important;
+    }
+    .atm-btn {
+        margin: .6vw;
+        display: block;
+        width: 19vw !important;
+        height: 19vw !important;
+        min-width: 70px !important;
+        min-height: 70px !important;
+        padding: 0.5rem;
+        font-size: small;
+        text-align: center;
+    }
 }
 
 @media (max-width: 374px) {

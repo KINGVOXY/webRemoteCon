@@ -1,17 +1,23 @@
 import * as dt from "https://deno.land/std@0.95.0/datetime/mod.ts";
 import * as handler from "../handlers/mods.ts";
 import { ConfigReader } from "../../deps.ts";
+import { utils } from "./mods.ts";
+import { TIMER } from "../../models/timer.ts";
 
 const enum MODE {
     ONLY = 1,
     WEEK = 2
 }
 
-export async function shapeQuery(d: string, c: string, m: string, iV: string) {
-    let date:     Date    = new Date();
-    let command:  string  = "light:on";
-    let mode:     number  = (Number(m) <= MODE.WEEK) ? Number(m): 1;
-    let isValid:  boolean = Boolean(iV);
+export async function shapeQuery(d: string, c: string, m: string, iV: string, w:any) {
+    let date:Date   = new Date();
+    let command     = "light:on";
+    const week: number[]    = (w)? w.map(Number) : [0];
+    const mode: number      = (Number(m) <= MODE.WEEK) ? Number(m): 1;
+    const isValid           = Boolean(Number(iV));
+    console.log(w);
+    console.log(week);
+    
 
     try {
         date = dt.parse(d, "yyyy-MM-dd HH:mm")
@@ -25,40 +31,58 @@ export async function shapeQuery(d: string, c: string, m: string, iV: string) {
     return {
         date:       date,
         command:    command,
+        week:       week,
         mode:       mode,
         isValid:    isValid
     }
 }
 
-export function set(data: {date: Date, command: string, mode: number, isValid: boolean}) {
+export function set(data: {date: Date, command: string, mode: number, isValid: boolean, week: number[]}) {
     switch (data.mode) {
         case MODE.ONLY:
             return setOnlyTimer(data.date, data.command, data.isValid);
 
         case MODE.WEEK:
-            return setWeeklyTimer(data.date, data.command, data.isValid);
+            console.log("WEEK");
+            
+            return setWeeklyTimer(data.date, data.command, data.isValid, data.week);
             
         default:
             break;
     }
 }
 
+export function get() {
+    return handler.timers.select();
+}
+
 export function setOnlyTimer(bookTime:Date, command:string, isValid:boolean) {
-    return setTimer(bookTime, command, MODE.ONLY, isValid);
+    const hash = utils.genHash(4);
+    setTimer(bookTime, command, MODE.ONLY, hash, isValid);
+    return hash;
 }
 
-export function setWeeklyTimer(bookTime:Date, command:string, isValid:boolean) {
-    return setTimer(bookTime, command, MODE.WEEK, isValid);
+export function setWeeklyTimer(bookTime:Date, command:string, isValid:boolean, week:number[]) {
+    const nowWD = bookTime.getDay();
+    const hash = utils.genHash(4);
+    for (const wd of week) {
+        const bt = new Date(bookTime.getTime());
+        const newBook = new Date(bt.setDate(bt.getDate()+(wd - nowWD)))
+        console.log(newBook);
+        
+        setTimer(newBook, command, MODE.WEEK, hash, isValid);   
+    }
+    return hash;
 }
 
-function setTimer(ftr:Date, command:string, mode:MODE, isValid:boolean = true) {
-    const numOfMode: number = Number(mode);
+function setTimer(ftr:Date, command:string, mode:MODE, hash: string, isValid = true) {
+    const numOfMode = Number(mode);
     const dateForSet: string = dt.format(ftr,"yyyy-MM-dd HH:mm:ss")
-    const result = handler.timers.insert({date: dateForSet, isValid: isValid, mode: numOfMode, command: command});
+    const result = handler.timers.insert({date: dateForSet, isValid: isValid, mode: numOfMode, command: command, hash: hash});
     return result;
 }
 
-export function switchTimer(id:number, isValid:boolean = true) {
+export function switchTimer(id:number, isValid = true) {
     const result = handler.timers.update(id, isValid);
     return result;
 }
@@ -66,4 +90,44 @@ export function switchTimer(id:number, isValid:boolean = true) {
 export function deleteTimer(id:number) {
     const result = handler.timers.remove(id);
     return result;
+}
+
+export function checkTimer() {
+    setInterval(async () => {
+        const now = new Date();
+        const books = TIMER.SELECT().RESULT();
+        
+        for (const b of books) {
+            if (!b.id || !b.date || !b.isValid || !b.mode || !b.command) continue;
+            const bd = dt.parse(b.date.toString(), "yyyy-MM-dd HH:mm:ss");
+            const com = b.command.toString().split(":");
+    
+            switch (b.mode) {
+                // 一度の予約実行
+                case MODE.ONLY:
+                    if (bd <= now) {
+                        TIMER.SELECT({id: b.id}).REMOVE();
+                        if (!b.isValid) break;
+                        await utils.remoCon(com[0], com[1]);
+                    }
+                    break;
+    
+                // 曜日実行
+                case MODE.WEEK:
+                    if (!b.isValid) break;
+                    if (bd.getDay() != now.getDay()) break;
+                    const bookTime: Date = new Date(now.getFullYear(), now.getMonth(), now.getDate(), bd.getHours(),bd.getMinutes());
+                    const bt = new Date(bookTime.getTime());
+                    bt.setSeconds(bt.getSeconds() + 11);
+                    if (bookTime <= now && now <= bt) {
+                        await utils.remoCon(com[0], com[1]);
+                    }
+                    break;
+            
+                default:
+                    break;
+            }
+        }
+    
+    }, 10 * 1000);
 }

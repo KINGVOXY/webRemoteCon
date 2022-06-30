@@ -3,6 +3,7 @@ import {
     Config,
  } from "./deps.ts";
 import { routes } from "./config/routes.ts";
+import { checkTimer } from "./api/helpers/timersHelper.ts"
 
 // ルーティング
 // routing
@@ -14,4 +15,5 @@ System.createRoutes("./views/assets/*");
 
 System.listen("./config/.env", (conf: Config)=>{
     console.log(`The server running on http://${conf.SERVER.HOSTNAME}:${conf.SERVER.PORT}`);
+    checkTimer();
 });

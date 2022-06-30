@@ -20,6 +20,11 @@ export const routes =
         GET: home.get_top
     },
     {
+        PATH: "./views/home/create.html",
+        URL: ["/automation/create"],
+        GET: remote.get_create
+    },
+    {
         PATH: "light/on.api",
         URL: ["/api/controller/light/on"],
         POST: remote.post_lightOn

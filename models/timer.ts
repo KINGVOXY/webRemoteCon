@@ -8,5 +8,6 @@ export const TIMER = PuddleJSON.USE("./models/timer.json", {
     date: ["NOT NULL"],
     isValid: ["NOT NULL"],
     command: ["NOT NULL"],
-    mode: ["NOT NULL"]
+    mode: ["NOT NULL"],
+    hash: ["NOT NULL"]
 })
