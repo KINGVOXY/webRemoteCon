@@ -115,7 +115,7 @@ function genModalText(l) {
             result += `<div class="badge badge-pill badge-primary">${weekday[w]}</div> `
         }
         result += "</div>"
-        console.log(result);
+        //console.log(result);
         result += `<p><span>時刻:</span> ${l.time}</p>`
     }
 
