@@ -41,6 +41,18 @@ main {
     font-weight: bold;
 }
 
+#atmStatus > * > span {
+    display: inline-block;
+    width: 7em;
+    font-weight: bold;
+}
+#atmStatus > p > div {
+    display: inline;
+}
+#atmStatus > div {
+    margin-bottom: 1rem;
+}
+
 @media (max-width: 576px) {
     main{
         width: 90% !important;

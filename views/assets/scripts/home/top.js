@@ -107,22 +107,23 @@ function genModalText(l) {
     const fu = funitures[l.command[0]];
 
     if (l.mode === 1) {
-        result += `<p><span>予定日時</span>: ${l.date} ${l.time}</p>`
+        result += `<p><span>予定日時:</span> ${l.date} ${l.time}</p>`
     } else {
         wks = l.week.reverse();
-        result += `<p><span>曜日</span>: `
+        result += `<div><span>曜日:</span>`
         for (const w of wks) {
-            result += weekday[w] + " "
+            result += `<div class="badge badge-pill badge-primary">${weekday[w]}</div> `
         }
-        result += "</p>"
-        result += `<p><span>時刻</span>: ${l.time}</p>`
+        result += "</div>"
+        console.log(result);
+        result += `<p><span>時刻:</span> ${l.time}</p>`
     }
 
     result += `
-    <p><span>機器</span>: ${fu}</p>
-    <p><span>状態</span>: ${stat}</p>
-    <p><span>モード</span>: ${mode}</p>
-    <p><span>実行設定</span>: ${iV}</p>
+    <p><span>機器:</span> ${fu}</p>
+    <p><span>状態:</span> ${stat}</p>
+    <p><span>モード:</span> ${mode}</p>
+    <p><span>実行設定:</span> ${iV}</p>
     `
 
     return result;
