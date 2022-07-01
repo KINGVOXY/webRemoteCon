@@ -14,7 +14,7 @@
     <link rel="shortcut icon" href="/views/assets/images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="/views/assets/styles/avantui.css">
-    <link rel="stylesheet" href="/views/assets/styles/home/top.css">
+    <link rel="stylesheet" href="/views/assets/styles/home/create.css">
     <title>オートメーション作成</title>
 </head>
 <body class="bg-dark text-light">
@@ -71,13 +71,14 @@
                         </div>
                     </div>
                 </div>
+                <style></style>
                 <div class="form-group" id="date-form">
                     <label for="date">日付</label>
-                    <input class="form-control" type="date" id="date" required>
+                    <input class="form-control form-dt" type="date" id="date" required style="padding: auto 1.2em !important;">
                 </div>
                 <div class="form-group" id="time-form">
                     <label for="time">時間</label>
-                    <input class="form-control" type="time" id="time" required>
+                    <input class="form-control form-dt" type="time" id="time" required>
                 </div>
                 <input type="hidden" id="datetime" name="date">
 

@@ -1,0 +1,19 @@
+main {
+    width: 60% !important;
+    max-width: 720px !important;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+
+.form-dt {
+    padding: .3em 1.2em !important;
+}
+
+@media (max-width: 576px) {
+    main{
+        width: 90% !important;
+        max-width: 540px !important;
+    }
+}
