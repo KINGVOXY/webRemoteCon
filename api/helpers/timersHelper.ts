@@ -143,7 +143,7 @@ export function checkTimer() {
                         if (!b.isValid) break;
                         await utils.remoCon(com[0], com[1]);
                     }
-                    break;
+                break;
     
                 // 曜日実行
                 case MODE.WEEK:
@@ -155,7 +155,7 @@ export function checkTimer() {
                     if (bookTime <= now && now <= bt) {
                         await utils.remoCon(com[0], com[1]);
                     }
-                    break;
+                break;
             
                 default:
                     break;
