@@ -15,12 +15,12 @@ $("#timer").click(async function (e) {
     await postData('/api/controller/timer/test')
 });
 
-let list;
+let list = [];
 
-$(async function (e) {
+$(async function () {
     list = await getList();
     showAtms(list);
-})
+});
 
 $("#delAtm").click(async function() {
     hash = $('#delAtm').data('hash');

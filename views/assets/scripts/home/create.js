@@ -1,27 +1,26 @@
 const loadSpinner = $("#loading");
 const weekForm = $("#week-form");
 const dateForm = $("#date-form");
-const timeForm = $("#time-form");
 
 $(function() {
     initDateTime();
     showOnlyArea();
 });
 
-$("#typeSelect").change(function(e) {
+$("#typeSelect").change(function() {
     const selected = $("#typeSelect").val();
     showArea(selected);
 });
 
-$("#funitureSelect").change(function(e) {
+$("#funitureSelect").change(function() {
     modFuni()
 });
 
-$("#statusSelect").change(function(e) {
+$("#statusSelect").change(function() {
     modFuni()
 });
 
-$("#fbtn").click(function (e) { 
+$("#fbtn").click(function () { 
     $("#datetime").val($("#date").val() + " " + $("#time").val());
     $("form").submit();
 });
