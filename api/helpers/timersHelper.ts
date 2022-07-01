@@ -52,8 +52,41 @@ export function set(data: {date: Date, command: string, mode: number, isValid: b
     }
 }
 
-export function get() {
-    return handler.timers.select();
+type ATMDATA = { isValid:boolean, mode:number, hash:string, command:string[], time:string, date?:string, week?:number[] };
+export function get(): ATMDATA[] {
+    const result: ATMDATA[] = []
+    // 重複を取り除いてHashを取得
+    const hash = handler.timers.selectHash().filter((element, index, self) => 
+    self.findIndex(e => 
+                e.hash === element.hash) === index
+    );
+
+    for (const h of hash) {
+        if (!h.hash) continue;
+        const data = handler.timers.selectByHash(h.hash.toString());
+
+        if (!data[0].mode || !data[0].command || !data[0].date) continue;
+        const iV = Boolean(data[0].isValid);
+        const mode = Number(data[0].mode);
+        const command = data[0].command.toString().split(":");
+        const bt = dt.parse(data[0].date.toString(), "yyyy-MM-dd HH:mm:ss");
+        const t = `${bt.getHours()}:${bt.getMinutes()}`;
+        
+        if (mode == MODE.ONLY) {
+            const d = dt.format(bt, "yyyy/MM/dd")
+            result.push({isValid:iV, mode:mode, hash:h.hash.toString(), command:command, time:t, date:d});
+        } else {
+            const days = [];
+            for (const d of data) {
+                if (!d.date) continue;
+                const day = dt.parse(d.date.toString(), "yyyy-MM-dd HH:mm:ss").getDay();
+                days.push(day);
+            }
+            result.push({isValid:iV, mode:mode, hash:h.hash.toString(), command:command, time:t, week:days});
+        }
+    }
+    
+    return result;
 }
 
 export function setOnlyTimer(bookTime:Date, command:string, isValid:boolean) {
@@ -87,8 +120,8 @@ export function switchTimer(id:number, isValid = true) {
     return result;
 }
 
-export function deleteTimer(id:number) {
-    const result = handler.timers.remove(id);
+export function deleteTimer(hash: string) {
+    const result = handler.timers.remove(hash);
     return result;
 }
 

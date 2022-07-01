@@ -16,7 +16,15 @@ export async function get_create(req: SystemRequest, res: SystemResponse): Promi
 export async function get_automations(req: SystemRequest, res: SystemResponse): Promise<void> {
     if(helpers.sessions.isLoggedIn(req, res)) {
         const atms = helpers.timer.get();
-        res.body = JSON.stringify(atms);
+        console.log(atms);
+        try {
+            res.body = JSON.stringify(atms);
+            res.status=200;
+        } catch (error) {
+            console.log(error);
+            
+            res.status=500;
+        }
         
         await res.send(res.response);
     }
@@ -74,7 +82,7 @@ export async function post_setTimer(req: SystemRequest, res: SystemResponse): Pr
     if(helpers.sessions.isLoggedIn(req, res)) {
         const body = await req.readBody();
         // console.log(body);
-         console.log(qs.parse(body));
+        console.log(qs.parse(body));
         
         const query = qs.parse(body);
 
@@ -121,12 +129,12 @@ export async function post_deleteTimer(req: SystemRequest, res: SystemResponse):
         const body = await req.readBody();
         const query = JSON.parse(body);
 
-        if (!query.id) {
+        if (!query.hash) {
             res.status = 500;
             res.send(res.response);    
         }
 
-        helpers.timer.deleteTimer(query.id);
+        helpers.timer.deleteTimer(query.hash);
 
         res.status = 200;
         res.send(res.response);

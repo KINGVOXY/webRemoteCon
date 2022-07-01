@@ -51,8 +51,8 @@
             </a>
         </div>
         <div>
-            <div class="d-flex">
-                <!-- <button class="btn btn-success atm-btn">
+            <div class="d-flex" id="atms" style="flex-wrap: wrap;">
+                <!-- <button class="btn btn-success atm-btn" hash="aaaa data-target="#atmModal" data-toggle="modal">
                     <p class="time">12:30</p>
                     <p class="command">照明</p>
                     <p class="mode">一度だけ</p>
@@ -60,6 +60,31 @@
             </div>
         </div>
     </main>
+    
+    <div class="modal fade" id="atmModal" tabindex="-1" role="dialog" aria-labelledby="atmModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-dark" id="atmModalLabel">オートメーション詳細</h5>
+                    <button type="button" class="close text-dark" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&#10005;</span>
+                    </button>
+                </div>
+                <div class="modal-body text-dark" id="atmStatus">
+                    <!-- <p><span>予定日時</span>: 2022/7/1 12:30</p>
+                    <p><span>機器</span>: エアコン</p>
+                    <p><span>状態</span>: OFF</p>
+                    <p><span>状態</span>: OFF</p>
+                    <p><span>モード</span>: 一度きり</p>
+                    <p><span>実行設定</span>: 有効</p> -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">閉じる</button>
+                    <button type="button" class="btn btn-primary" id="delAtm" data-hash="">削除</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js" integrity="sha384-xrRywqdh3PHs8keKZN+8zzc5TX0GRTLCcmivcbNJWm2rs5C8PRhcEn3czEjhAO9o" crossorigin="anonymous"></script>

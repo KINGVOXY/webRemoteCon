@@ -12,3 +12,12 @@ async function postData(url = '', data = { }) {
     });
     return response;
 }
+
+async function getData(url = '') {
+
+    const response = await fetch(url, {
+        method: 'GET',
+        cache: 'no-cache',
+    });
+    return response;
+}

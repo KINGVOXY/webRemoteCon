@@ -15,7 +15,17 @@ export function select() {
     return result;
 }
 
-export function remove(id: number) {
-    const result = TIMER.SELECT({id: id}).REMOVE();
+export function selectHash() {
+    const result = TIMER.SELECT().RESULT("hash");
+    return result;
+}
+
+export function selectByHash(hash: string) {
+    const result = TIMER.SELECT({hash:hash}).RESULT();
+    return result;
+}
+
+export function remove(hash: string) {
+    const result = TIMER.SELECTIF(row=>({ hash: row.hash == hash })).REMOVE();
     return result;
 }
