@@ -50,7 +50,7 @@ export function setCookie(userId: number): string {
  * @param res 
  * @returns ログイン状態の時、true
  */
-export function isLoggedIn(req: SystemRequest, res:SystemResponse): Boolean {
+export function isLoggedIn(req: SystemRequest, res:SystemResponse): boolean {
     if(!checkSession(req.getCookie("session"))) {
         // console.log("sH: 未ログイン")
         res.redirect("/")
@@ -68,7 +68,7 @@ export function isLoggedIn(req: SystemRequest, res:SystemResponse): Boolean {
  * @param res 
  * @returns ログイン状態で無いとき、true
  */
- export function isNotAlreadyLoggedIn(req: SystemRequest, res:SystemResponse): Boolean {
+ export function isNotAlreadyLoggedIn(req: SystemRequest, res:SystemResponse): boolean {
     const cookie: string|undefined = req.getCookie("session");
     if(!checkSession(cookie)) {
         return true;

@@ -100,7 +100,7 @@ export async function post_setTimer(req: SystemRequest, res: SystemResponse): Pr
 
         const shapeQuery = await helpers.timer.shapeQuery(query.date.toString(), query.command.toString(), query.mode.toString(), isValid, week);
         console.log(shapeQuery);
-        const result = helpers.timer.set(shapeQuery);
+        helpers.timer.set(shapeQuery);
 
         res.status = 200;
         res.redirect("/top")

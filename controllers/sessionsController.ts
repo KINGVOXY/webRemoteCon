@@ -24,7 +24,7 @@ export async function post_new(req: SystemRequest, res: SystemResponse): Promise
     let query;
     try {
         query = qs.parse(body);
-    } catch (error) {
+    } catch (_error) {
         res.redirect(`/?message=${encodeURI("形式エラー")}&status=1`);
         res.send(res.response);
     }

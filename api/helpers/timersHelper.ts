@@ -21,7 +21,9 @@ export async function shapeQuery(d: string, c: string, m: string, iV: string, w:
 
     try {
         date = dt.parse(d, "yyyy-MM-dd HH:mm")
-    } catch (error) {}
+    } catch (_error) {
+        // pass
+    }
 
     const commands = await ConfigReader.read("./config/commands.json")
     for (let i = 0; i < commands.length; i++) {

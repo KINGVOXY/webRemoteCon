@@ -4,7 +4,7 @@
  * @param length 
  * @returns 
  */
-export function genHash(length: number = 21):string {
+export function genHash(length = 21):string {
     let hash = "";
     const base = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
     const base_len = base.length;
